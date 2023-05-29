@@ -11,26 +11,38 @@ class Item:
 
         #assignment to self  objects
         self.__name = name
-        self.price = price
+        self.__price = price
         self.quantity = quantity
 
         #actions to execute
         Item.all.append(self)
-        
-    @property()
+
+    @property
+    def price(self):
+        return self.__price
+    
+    def apply_discount(self):
+        self.__price = self.__price * self.discounted_price
+
+    def apply_increment(self, increment):
+        self.__price = self.__price + self.__price * increment
+      
+    @property
     # Prperty Decorator = Read-Only Attribute 
     def name(self):
         return self.__name
 
     @name.setter
     def name(self, new_name):
-        self.__name = new_name
+        if len(new_name) > 15:
+            raise Exception("The name is too long")
+        else:
+            self.__name = new_name
 
     def calculate_total_price(self):
-        return  self.price * self.quantity
+        return  self.__price * self.quantity
 
-    def apply_discount(self):
-        self.price = self.price * self.discounted_price
+
 
     @classmethod
     def instantiate_from_csv(cls):
